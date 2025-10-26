@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Assistant</title>
+  <link rel="stylesheet" href="ai.css">
+</head>
+<body>
+  <!-- Floating Chat Button -->
+  <button id="chat-toggle" class="chat-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="C:\Users\salim\Downloads\AI\1010187_OIUFKE1.svg">
+      <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.17L4 17.17V4H20V16Z" fill="currentColor"/>
+    </svg>
+  </button>
+
+  <!-- Chat Overlay -->
+  <div id="chat-overlay" class="chat-overlay">
+    <div class="chat-container">
+      <div class="chat-header">
+        <span>Arruhayn Assistant</span>
+        <button id="chat-close" class="chat-close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="C:\Users\salim\Downloads\AI\1010187_OIUFKE1.svg">
+            <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+      <div id="chat-box" class="chat-box"></div>
+      <div class="input-area">
+        <input type="text" id="user-input" placeholder="Type your message..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chat-box");
+    const userInput = document.getElementById("user-input");
+    const chatToggle = document.getElementById("chat-toggle");
+    const chatOverlay = document.getElementById("chat-overlay");
+    const chatClose = document.getElementById("chat-close");
+    let isTyping = false;
+    let isOpen = false;
+
+    // Chat popup functionality
+    function openChat() {
+      isOpen = true;
+      chatOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      // Focus input after animation
+      setTimeout(() => {
+        userInput.focus();
+      }, 300);
+    }
+
+    function closeChat() {
+      isOpen = false;
+      chatOverlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Event listeners
+    chatToggle.addEventListener('click', openChat);
+    chatClose.addEventListener('click', closeChat);
+    
+    // Close on overlay click
+    chatOverlay.addEventListener('click', (e) => {
+      if (e.target === chatOverlay) {
+        closeChat();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        closeChat();
+      }
+    });
+
+    // Add welcome message on load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        appendMessage("bot", "Asalam Aleikum! How can I assist you today?", true);
+      }, 1000);
+    });
+
+    // Add Enter key support
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message || isTyping) return;
+
+      isTyping = true;
+      appendMessage("user", message);
+      userInput.value = "";
+      
+      // Show typing indicator
+      showTypingIndicator();
+
+      try {
+        const response = await fetch("http://localhost:3000/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await response.json();
+        const reply = data.reply || data.choices?.[0]?.message?.content || "Sorry, I couldn't process that request. Please try again.";
+        
+        // Remove typing indicator
+        removeTypingIndicator();
+        
+        // Type out the response character by character for effect
+        typeMessage("bot", reply);
+      } catch (error) {
+        removeTypingIndicator();
+        appendMessage("bot", "Connection error. Please check your internet connection.", true);
+        console.error("Error:", error);
+      }
+      
+      isTyping = false;
+    }
+
+    function showTypingIndicator() {
+      const typingDiv = document.createElement("div");
+      typingDiv.classList.add("typing-indicator");
+      typingDiv.id = "typing-indicator";
+      
+      for (let i = 0; i < 3; i++) {
+        const dot = document.createElement("div");
+        dot.classList.add("typing-dot");
+        typingDiv.appendChild(dot);
+      }
+      
+      chatBox.appendChild(typingDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+      const typingIndicator = document.getElementById("typing-indicator");
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
+    }
+
+    function typeMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      if (sender === "bot" && Math.random() > 0.7) {
+        msg.classList.add("matrix-text");
+      }
+      chatBox.appendChild(msg);
+      
+      let i = 0;
+      const typeInterval = setInterval(() => {
+        if (i < text.length) {
+          msg.textContent += text.charAt(i);
+          i++;
+          chatBox.scrollTop = chatBox.scrollHeight;
+        } else {
+          clearInterval(typeInterval);
+        }
+      }, 20); // Adjust speed as needed
+    }
+
+    function appendMessage(sender, text, instant = false) {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      
+      if (sender === "bot" && Math.random() > 0.7) {
+        msg.classList.add("matrix-text");
+      }
+      
+      if (instant) {
+        msg.textContent = text;
+        chatBox.appendChild(msg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      } else {
+        typeMessage(sender, text);
+      }
+    }
+
+    // Add some visual effects
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add glow effect to input on focus
+      userInput.addEventListener('focus', () => {
+        userInput.style.boxShadow = '0 0 20px rgba(236, 72, 153, 0.3)';
+      });
+      
+      userInput.addEventListener('blur', () => {
+        userInput.style.boxShadow = 'none';
+      });
+    });
+  </script>
+  
+</body>
+</html>
