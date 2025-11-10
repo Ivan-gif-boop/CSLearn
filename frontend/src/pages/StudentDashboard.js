@@ -27,8 +27,8 @@ export default function StudentDashboard() {
 
   // Mock user data
   const user = {
-    name: "John Doe",
-    email: "john.doe@student.com",
+    name: "Fatma Abdulle",
+    email: "fatmaabdulle@gmail.com",
     avatar: null
   };
 
