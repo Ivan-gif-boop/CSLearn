@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   BookOpen, 
   Code, 
@@ -24,12 +25,24 @@ export default function StudentDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [aiAssistantOpen, setAiAssistantOpen] = useState(false);
+  const navigate = useNavigate();
 
-  // Mock user data
-  const user = {
-    name: "Fatma Abdulle",
-    email: "fatmaabdulle@gmail.com",
-    avatar: null
+  // Get user data from localStorage
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : { username: 'Guest', email: '' };
+  });
+
+  // Protect route - redirect if not logged in
+  React.useEffect(() => {
+    if (!localStorage.getItem('user')) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
   };
 
   // Mock courses data
@@ -173,11 +186,11 @@ export default function StudentDashboard() {
         <div className="p-4 border-b border-gray-200">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold">
-              {user.name.charAt(0)}
+              {user.username ? user.username.charAt(0) : 'G'}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
-              <p className="text-xs text-gray-500 truncate">{user.email}</p>
+              <p className="text-sm font-medium text-gray-900 truncate">{user.username || 'Guest'}</p>
+              <p className="text-xs text-gray-500 truncate">{user.email || ''}</p>
             </div>
           </div>
         </div>
@@ -206,7 +219,10 @@ export default function StudentDashboard() {
             <Settings className="h-5 w-5" />
             <span className="font-medium">Settings</span>
           </button>
-          <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition">
+          <button 
+            onClick={handleLogout}
+            className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition"
+          >
             <LogOut className="h-5 w-5" />
             <span className="font-medium">Logout</span>
           </button>
@@ -234,11 +250,11 @@ export default function StudentDashboard() {
             <div className="p-4 border-b border-gray-200">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold">
-                  {user.name.charAt(0)}
+                  {user.username ? user.username.charAt(0) : 'G'}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
-                  <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                  <p className="text-sm font-medium text-gray-900 truncate">{user.username || 'Guest'}</p>
+                  <p className="text-xs text-gray-500 truncate">{user.email || ''}</p>
                 </div>
               </div>
             </div>
@@ -268,7 +284,10 @@ export default function StudentDashboard() {
                 <Settings className="h-5 w-5" />
                 <span className="font-medium">Settings</span>
               </button>
-              <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition">
+              <button 
+                onClick={handleLogout}
+                className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition"
+              >
                 <LogOut className="h-5 w-5" />
                 <span className="font-medium">Logout</span>
               </button>
@@ -305,7 +324,7 @@ export default function StudentDashboard() {
           {/* Welcome Section */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              Welcome back, {user.name.split(' ')[0]}! 👋
+              Welcome , {user.username ? user.username.split(' ')[0] : 'Guest'}! 
             </h2>
             <p className="text-gray-600">Here's your learning progress today</p>
           </div>
