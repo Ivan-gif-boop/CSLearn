@@ -4,20 +4,36 @@ import com.cslearn.model.Course;
 import org.springframework.data.jpa.domain.Specification;
 
 public class CourseSpecification {
-    public static Specification<Course> filter(String title, String instructor, String description) {
+
+    public static Specification<Course> filter(
+            String title, String instructor, String description
+    ) {
+        return Specification.where(titleContains(title))
+                .and(descriptionContains(description))
+                .and(instructorNameContains(instructor));
+    }
+
+    private static Specification<Course> titleContains(String title) {
+        return (root, query, cb) ->
+                title == null ? null :
+                        cb.like(cb.lower(root.get("title")), "%" + title.toLowerCase() + "%");
+    }
+
+    private static Specification<Course> descriptionContains(String description) {
+        return (root, query, cb) ->
+                description == null ? null :
+                        cb.like(cb.lower(root.get("description")), "%" + description.toLowerCase() + "%");
+    }
+
+    private static Specification<Course> instructorNameContains(String instructor) {
         return (root, query, cb) -> {
-            var predicate = cb.conjunction();
+            if (instructor == null) return null;
 
-            if (title != null && !title.isEmpty())
-                predicate = cb.and(predicate, cb.like(cb.lower(root.get("title")), "%" + title.toLowerCase() + "%"));
+            // JOIN courses -> users table
+            var join = root.join("instructor");
 
-            if (description != null && !description.isEmpty())
-                predicate = cb.and(predicate, cb.like(cb.lower(root.get("description")), "%" + description.toLowerCase() + "%"));
-
-            if (instructor != null && !instructor.isEmpty())
-                predicate = cb.and(predicate, cb.like(cb.lower(root.join("instructor").get("name")), "%" + instructor.toLowerCase() + "%"));
-
-            return predicate;
+            return cb.like(cb.lower(join.get("name")),
+                    "%" + instructor.toLowerCase() + "%");
         };
     }
 }
