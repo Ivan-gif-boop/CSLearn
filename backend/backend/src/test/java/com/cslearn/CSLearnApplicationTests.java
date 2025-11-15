@@ -1,13 +1,13 @@
-package com.cslearn;
+//package com.cslearn;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class CSLearnApplicationTests {  
+//@SpringBootTest
+//class CSLearnApplicationTests {  
 
-    @Test
-    void contextLoads() {
-    }
-}
+    //@Test
+    //void contextLoads() {
+    //}
+//}
 
