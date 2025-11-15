@@ -21,7 +21,7 @@ public class SearchController {
             @RequestParam(required = false) String description,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "course_id") String sortBy,
+            @RequestParam(defaultValue = "courseId") String sortBy,
             @RequestParam(defaultValue = "asc") String direction) {
         return searchService.filterCourses(title, instructor, description, page, size, sortBy, direction);
     }
