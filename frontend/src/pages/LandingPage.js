@@ -182,8 +182,8 @@ export default function LandingPage() {
               <h3 className="font-bold mb-4">Quick Links</h3>
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#" className="hover:text-white">About</a></li>
-                <li><a href="#" className="hover:text-white">Features</a></li>
-                <li><a href="#" className="hover:text-white">Resources</a></li>
+                <li><a href="#features" className="hover:text-white">Features</a></li>
+                <li><Link to="/resources" className="hover:text-white">Resources</Link></li>
                 <li><Link to="/admin-login" className="hover:text-white">Admin Login</Link></li>
               </ul>
             </div>
@@ -197,7 +197,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 CSLearn.</p>
+            <p>&copy; 2025 CSLearn. All rights reserved.</p>
           </div>
         </div>
       </footer>

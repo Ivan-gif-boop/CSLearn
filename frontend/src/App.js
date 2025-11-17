@@ -8,7 +8,7 @@ import StudentDashboard from './pages/StudentDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import CuratedResources from './pages/CuratedResources';
 import CodingPractice from './pages/CodingPractice';
-
+import ProgressTracking from './pages/ProgressTracking';
 
 function App() {
   return (
@@ -21,7 +21,8 @@ function App() {
         <Route path="/dashboard" element={<StudentDashboard />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/resources" element={<CuratedResources />} />
-        <Route path="/coding-practice" element={<CodingPractice />} /> 
+        <Route path="/coding-practice" element={<CodingPractice />} />
+        <Route path="/progress" element={<ProgressTracking />} />
       </Routes>
     </Router>
   );
