@@ -52,7 +52,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4 py-8">
       <div className="flex w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div className="hidden lg:block lg:w-1/2 relative">
           <img src="/images/Register-image.jpg" alt="Learning" className="w-full h-full object-cover"/>
@@ -62,7 +62,7 @@ export default function Register() {
         <div className="w-full lg:w-1/2 p-8 lg:p-12">
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
-              <Code className="h-12 w-12 text-indigo-600" />
+              <Code className="h-10 w-10 text-indigo-600" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
             <p className="text-gray-600">Join CSLearn to start your learning journey</p>

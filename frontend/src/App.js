@@ -9,6 +9,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import CuratedResources from './pages/CuratedResources';
 import CodingPractice from './pages/CodingPractice';
 import ProgressTracking from './pages/ProgressTracking';
+import SmartSearch from './pages/SmartSearch';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/resources" element={<CuratedResources />} />
         <Route path="/coding-practice" element={<CodingPractice />} />
         <Route path="/progress" element={<ProgressTracking />} />
+        <Route path="/smart-search" element={<SmartSearch />} />
       </Routes>
     </Router>
   );
