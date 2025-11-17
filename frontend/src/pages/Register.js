@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Code, User, Shield } from 'lucide-react';
+import { Code } from 'lucide-react';
 
 export default function Register() {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    password: '',
-    role: 'student'
+    password: ''
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -27,7 +26,10 @@ export default function Register() {
       const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          role: 'student' // Always register as student
+        }),
       });
 
       const data = await response.json();
@@ -37,7 +39,7 @@ export default function Register() {
         localStorage.setItem('user', JSON.stringify(data.user));
         
         alert("Registration successful!");
-        navigate(formData.role === "admin" ? "/admin-dashboard" : "/dashboard");
+        navigate("/dashboard");
       } else {
         alert(data.error || "Registration failed");
       }
@@ -63,7 +65,7 @@ export default function Register() {
               <Code className="h-12 w-12 text-indigo-600" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
-            <p className="text-gray-600">Join CSLearn to start your journey</p>
+            <p className="text-gray-600">Join CSLearn to start your learning journey</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -107,37 +109,6 @@ export default function Register() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition"
                 disabled={loading}
               />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Select Role</label>
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  type="button"
-                  onClick={() => setFormData({...formData, role: 'student'})}
-                  className={`p-4 border-2 rounded-lg text-center transition-all ${
-                    formData.role === 'student' 
-                      ? 'border-indigo-600 bg-indigo-50 text-indigo-600' 
-                      : 'border-gray-300 bg-white text-gray-700 hover:border-indigo-400'
-                  }`}
-                >
-                  <User className="h-8 w-8 mx-auto mb-2" />
-                  <div className="font-medium">Student</div>
-              </button>
-                
-                <button
-                  type="button"
-                  onClick={() => setFormData({...formData, role: 'admin'})}
-                  className={`p-4 border-2 rounded-lg text-center transition-all ${
-                    formData.role === 'admin' 
-                      ? 'border-indigo-600 bg-indigo-50 text-indigo-600' 
-                      : 'border-gray-300 bg-white text-gray-700 hover:border-indigo-400'
-                  }`}
-                >
-                  <Shield className="h-8 w-8 mx-auto mb-2" />
-                  <div className="font-medium">Admin</div>
-                </button>
-              </div>
             </div>
 
             <button

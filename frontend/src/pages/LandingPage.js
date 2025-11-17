@@ -86,20 +86,20 @@ export default function LandingPage() {
         )}
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section - Reduced height */}
       <div 
-        className="relative bg-cover bg-center py-40 md:py-56"
+        className="relative bg-cover bg-center py-24 md:py-32"
         style={{
           backgroundImage: "url('/images/elearning-hero.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Master CS<br />
             <span className="text-indigo-400">One Topic at a Time</span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-200 mb-6 max-w-3xl mx-auto">
             Curated resources, coding practice, and progress tracking all in one place.
           </p>
           <Link to="/register" className="inline-block bg-indigo-600 text-white px-8 py-3 rounded-lg text-lg hover:bg-indigo-700 shadow-lg">
@@ -184,6 +184,7 @@ export default function LandingPage() {
                 <li><a href="#" className="hover:text-white">About</a></li>
                 <li><a href="#" className="hover:text-white">Features</a></li>
                 <li><a href="#" className="hover:text-white">Resources</a></li>
+                <li><Link to="/admin-login" className="hover:text-white">Admin Login</Link></li>
               </ul>
             </div>
             <div>
