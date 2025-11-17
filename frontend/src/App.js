@@ -6,6 +6,9 @@ import Register from './pages/Register';
 import AdminLogin from './pages/AdminLogin';
 import StudentDashboard from './pages/StudentDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import CuratedResources from './pages/CuratedResources';
+import CodingPractice from './pages/CodingPractice';
+
 
 function App() {
   return (
@@ -17,6 +20,8 @@ function App() {
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/dashboard" element={<StudentDashboard />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/resources" element={<CuratedResources />} />
+        <Route path="/coding-practice" element={<CodingPractice />} /> 
       </Routes>
     </Router>
   );
