@@ -36,7 +36,7 @@ Administrators can:
 ---
 
 ##  Group Members – *Group 1 (ICS2A)*
-
+  
 | Name | Registration Number |
 |------|----------------------|
 | Wachira Ivan Mureithi | 176830 |
