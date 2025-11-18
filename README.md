@@ -7,7 +7,7 @@ Students can easily select a unit (e.g., *Data Structures*) and a topic (e.g., *
 -  **Curated coding problems** (from LeetCode, HackerRank, or custom sources)
 -  **Interactive quizzes**
 -  **Progress tracker** showing completion percentage
-
+  
 Administrators can:
 -  Add and curate new content  
 -  Tag and organize resources  
